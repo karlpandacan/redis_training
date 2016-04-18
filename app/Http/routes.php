@@ -19,3 +19,4 @@ Route::auth();
 
 Route::get('/home', 'HomeController@index');
 Route::get('/articles/{id}', 'BlogController@show');
+Route::get('articles', 'BlogController@index');

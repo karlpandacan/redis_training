@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Cache;
+use Redis;
+use App\Models\Blog;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redis;
 use App\Http\Requests;
+use App\Repositories\Contracts\BlogInterface as BlogRepository;
 
 class BlogController extends Controller
 {
-    public function __construct()
+
+    private $blogRepository;
+
+    public function __construct(BlogRepository $blogRepository)
     {
+        $this->blogRepository = $blogRepository;
         $this->middleware('guest');
     }
 
@@ -36,5 +43,15 @@ class BlogController extends Controller
             $storage->zIncrBy('articleViews', 1, 'article:' . $id);
         }
         return "This is an article with id: " . $id . " it has " . $views . " views";
+    }
+
+    public function showAllCached()
+    {
+//        ini_set('xdebug.max_nesting_level', 200);
+//        $blogs = Cache::remember('blog_posts_cache', 1, function(){
+//            return view('blogs.view_cached', ['blogs' => Blog::latest()->paginate(15)]);
+//        });
+        dd($this->blogRepository->all());
+        return view('blogs.view_cached', ['blogs' => $blogs]);
     }
 }

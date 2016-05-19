@@ -9,9 +9,9 @@
 
                     <div class="panel-body">
                         @forelse($blogs as $blog)
-                            {{ $blog->title }} <br/>
-                            {{ $blog->contents }}
-                        @else
+                            <b>{{ $blog->title }}</b> <br />
+                            {{ $blog->contents }}<br /><br />
+                        @empty
                             No Data Found
                         @endforelse
                     </div>

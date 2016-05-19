@@ -2,6 +2,9 @@
 
 namespace App\Repositories\Eloquents;
 
+
+use Cache;
+use Redis;
 use App\Repositories\Contracts\BlogInterface;
 use App\Repositories\Contracts\RepositoryInterface;
 
@@ -13,8 +16,11 @@ class BlogRepository extends Repository implements BlogInterface
      *
      * @return mixed
      */
-    function model()
+    public function fetchAll()
     {
-        return 'App\Models\Blog';
+        $result = Cache::remember('blog_posts_cache', 1, function(){
+            return $this->model->all();
+        });
+        return $result;
     }
 }

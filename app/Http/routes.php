@@ -19,5 +19,5 @@ Route::auth();
 
 Route::get('/home', 'HomeController@index');
 Route::get('/articles/{id}', 'BlogController@show');
-Route::get('articles', 'BlogController@index');
+Route::get('/blogs', 'BlogController@cachedDB');
 Route::get('articles-cached', 'BlogController@showAllCached');

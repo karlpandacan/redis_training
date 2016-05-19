@@ -51,7 +51,17 @@ class BlogController extends Controller
 //        $blogs = Cache::remember('blog_posts_cache', 1, function(){
 //            return view('blogs.view_cached', ['blogs' => Blog::latest()->paginate(15)]);
 //        });
-        dd($this->blogRepository->all());
+        \DB::enableQueryLog();
+        $blogs = $this->blogRepository->fetchAll();
+//        $blogs = $this->blogRepository->all();
+        print_r(\DB::getQueryLog());
         return view('blogs.view_cached', ['blogs' => $blogs]);
+    }
+
+    public function cachedDB()
+    {
+        $blogs = $this->blogRepository->fetchAll();
+        return view('blogs.view_cached', ['blogs' => $blogs]);
+
     }
 }
